@@ -8,6 +8,7 @@ https://ex-rate-calculator.netlify.app/
 
 ## Project Setup
 
+``` bash
 # install dependencies
 npm installl
 
@@ -16,3 +17,4 @@ npm start
 
 # build for production with minification
 npm run build
+```
