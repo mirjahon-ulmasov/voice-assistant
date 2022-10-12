@@ -1,0 +1,32 @@
+{
+	"users": [
+		{
+			"id": 1,
+			"name": "Mirjahon",
+			"age": 22,
+			"address": {
+					"city": "Tashkent",
+					"street": "Donishmand"
+			}
+		},
+		{
+			"id": 2,
+			"name": "Shahzoda",
+			"age": 30,
+			"address": {
+					"city": "Tashkent",
+					"street": "Qozirobod"
+			}
+		}
+	],
+	"comments": [
+		{
+			"id": 1,
+			"body": "some comment",
+			"postId": 1
+		}
+	],
+	"profile": {
+		"name": "typicode"
+	}
+}
