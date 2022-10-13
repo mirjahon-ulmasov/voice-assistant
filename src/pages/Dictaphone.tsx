@@ -4,8 +4,14 @@ import { useSpeechSynthesis } from "react-speech-kit";
 import moment from "moment";
 import "moment/locale/ru";
 
+interface IOrder {
+	drink: string,
+	sugar?: number,
+}
+
 const Dictaphone = () => {
 	const [response, setResponse] = useState("");
+	const [order, setOrder] = useState<IOrder>({ drink: "", sugar: 0 });
 
 	const { speak, cancel, voices } = useSpeechSynthesis();
 
@@ -21,13 +27,49 @@ const Dictaphone = () => {
 			moment.locale("ru");
 	}, []);
 
-	const commands = [
+	const commands = [	
 		{
-			command: "(Пожалуйста) принеси мне *",
+			command: "(Пожалуйста) принеси (мне) *",
 			callback: (drink: string) => {
 				resetTranscript();
+				setOrder(prev => ({...prev, drink }))
 				setResponse(`Сколько ложек сахара класть в ${drink}?`);
 			},
+		},
+
+		{
+			command: [":count (ложки)", "не надо", "без сахара"],
+			callback: (count: any) => {
+				resetTranscript();
+				let countSugar = 0;
+				if(!order?.drink) {
+					setResponse(`Пожалуйста, сначала выберите напиток!`);
+					return;
+				}
+				if(count.command) countSugar = 0;
+				else if(isNaN(count)) {
+					setResponse(`Я вас не понял`);
+					return;
+				}
+				else countSugar = parseInt(count);
+				setOrder(prev => ({...prev, sugar: countSugar}))
+				setResponse(`Спасибо, ваш заказ принят`);
+			},
+			fuzzyMatchingThreshold: 1,
+		},
+
+		
+		{
+			command: "Покажи (мне) заказ",
+			callback: (count: string) => {
+				resetTranscript();
+				if(!order?.drink) {
+					setResponse(`Ваш заказ пуст`);
+					return;
+				}
+				setResponse(`Ваш заказ: ${order.drink} ${order.sugar ? `с ${order.sugar} ложками` : "без"} сахара`);
+			},
+			fuzzyMatchingThreshold: 1,
 		},
 
 		{
@@ -39,13 +81,11 @@ const Dictaphone = () => {
 		},
 
 		{
-			command: ["Открой ютуб"],
+			command: ["Открой Youtube"],
 			callback: () => {
 				resetTranscript();
 				window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', "_blank");
 			},
-			isFuzzyMatch: true,
-			fuzzyMatchingThreshold: 0.3,
 		},
 
 		// DATE AND TIME
@@ -122,12 +162,13 @@ const Dictaphone = () => {
 
 		// CLEAR or STOP.
 		{
-			command: "(Пожалуйста) очисти",
+			command: ["(Пожалуйста) очисти", "очистить"],
 
 			callback: () => {
-				resetTranscript();
 				cancel();
 				setResponse("");
+				resetTranscript();
+				setOrder({ drink: "", sugar: 0 })				
 			},
 			isFuzzyMatch: true,
 			fuzzyMatchingThreshold: 0.3,
@@ -146,9 +187,9 @@ const Dictaphone = () => {
 	}
 
 	return (
-		<div>
-			<p>{response}</p>
+		<div className="output">
 			<p>{transcript}</p>
+			<p>{response}</p>
 		</div>
 	);
 };

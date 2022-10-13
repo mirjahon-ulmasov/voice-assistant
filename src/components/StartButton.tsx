@@ -15,10 +15,12 @@ function StartButton() {
 	};
 
 	return (
-		<button
-			className={`button ${listen ? "on" : "off"}`}
-			onClick={clickHandler}
-		/>
+		<div className="power-btn">
+			<button
+				className={listen ? "on" : "off"}
+				onClick={clickHandler}
+			/>
+		</div>
 	);
 }
 
