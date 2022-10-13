@@ -1,0 +1,66 @@
+main {
+	position: relative;
+	min-height: 100vh;
+	background: #f3f0f1;
+
+	header {
+		display: flex;
+		padding: 1rem;
+
+		.power-btn {
+			flex: 1;
+
+			button {
+				height: 7rem;
+				width: 7rem;
+				position: relative;
+				background: #f3f0f1;
+				outline: none;
+				border: none;
+				border-radius: 50%;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.1s ease-in-out;
+				cursor: pointer;
+		
+				&::after {
+				font-family: FontAwesome;
+				content: "\f011";
+				font-size: 50px;
+				}
+		
+				&.on {
+				color: #15e38a;
+				box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5),
+					inset 8px 8px 16px rgba(0, 0, 0, 0.1);
+				}
+				&.off {
+				color: #e75454;
+				box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8),
+					6px 6px 10px rgba(0, 0, 0, 0.2);
+				}
+			}
+		}
+	
+		.output {
+			flex: 2;
+			background: #f3f0f1;
+			border-radius: 5px;
+			font-family: consolas;
+			padding: 1rem;
+			box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5),
+			inset 8px 8px 16px rgba(0, 0, 0, 0.1);
+			
+			p {
+				color: #aaa;
+				font-size: 2rem;
+			}
+		}
+
+	}
+
+	.lottie {
+		height: calc(100vh - 15rem);
+	}
+}

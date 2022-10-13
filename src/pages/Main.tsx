@@ -10,6 +10,10 @@ function Main() {
 		},
 	});
 
+	// useEffect(() => {
+	// 	speak({ text: value, voice: voices[17]})
+	// }, [value, voices, speak])
+
 	return (
 		<div>
 		<textarea value={value} onChange={(event) => setValue(event.target.value)}/>
